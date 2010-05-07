@@ -9,4 +9,5 @@ module PagesHelper
       "#{base_title} | #{@title}"
     end
   end
+
 end
