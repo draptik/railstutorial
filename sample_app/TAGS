@@ -1,0 +1,15 @@
+
+app/controllers/pages_controller.rb,139
+class PagesController < ApplicationControllerPagesController1,0
+  def homehome2,46
+  def contactcontact6,84
+  def aboutabout10,128
+
+app/controllers/application_controller.rb,81
+class ApplicationController < ActionController::BaseApplicationController4,154
+
+app/helpers/application_helper.rb,48
+module ApplicationHelperApplicationHelper2,86
+
+app/helpers/pages_helper.rb,35
+module PagesHelperPagesHelper1,0
