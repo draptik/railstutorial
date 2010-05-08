@@ -1,12 +1,13 @@
 #!/usr/bin/ruby
+# -*- coding: utf-8 -*-
 require 'redgreen'
 require 'autotest/timestamp'
- 
+
 module Autotest::GnomeNotify
   def self.notify title, msg, img
     system "notify-send '#{title}' '#{msg}' -i #{img} -t 3000"
   end
- 
+  
   Autotest.add_hook :ran_command do |at|
     image_root = "~/incubator/user-news-ruby-on-rails/sample_app/.autotest_images"
     results = [at.results].flatten.join("\n")
@@ -21,5 +22,22 @@ module Autotest::GnomeNotify
       end
     end
   end
- 
+  
+  ## ADD INTEGRATION TESTS TO AUTOTEST (normally disabled)
+  ## See Listing 5.14 in Ruby on Rails tutorial book
+  Autotest.add_hook :initialize do |autotest|
+    autotest.add_mapping(/^spec\/integration\/.*_spec\.rb$/) do
+      autotest.files_matching(/^spec\/integration\/.*_spec\.rb$/)
+    end
+  end
+
+  ## ADD INTEGRATION TESTS TO AUTOTEST (normally disabled)
+  ## This is needed for Ubuntu!
+  ## See Listing 5.15 in Ruby on Rails tutorial book
+  Autotest.add_hook :initialize do |autotest|
+    autotest.add_mapping(%r%^spec/(integration)/.*rb$%) do|filename, _|
+      filename
+    end
+  end
+
 end
