@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  ## PD 2010-05-10 Make User model RESTful
+  map.resources :users
 
   ## PD 2010-05-08 Routes for static pages
   map.contact '/contact', :controller => 'pages', :action => 'contact'
