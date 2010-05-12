@@ -1,6 +1,7 @@
 <h2>Sign up</h2>
 
 <% form_for(@user) do |f|  %>
+<%= f.error_messages %>
 
 <div class="field">
   <%= f.label :name %><br />
