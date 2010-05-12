@@ -1,3 +1,11 @@
+/* Round corners: Note for reformating editors: its "-moz*" and
+   "-webkit*"! Note the minus sign!!!! */
+.round {
+    -moz-border-radius:    10px;
+    -webkit-border-radius: 10px;
+}
+
+
 .container {
     width: 710px;
 }
@@ -79,11 +87,6 @@ a.signup_button {
     padding: 20px;
 }
 
-/* Round corners */
-.round {
-    moz-border-radius:    10px;
-    webkit-border-radius: 10px;
-}
 
 
 #footer {
