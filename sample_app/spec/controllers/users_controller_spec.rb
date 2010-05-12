@@ -6,7 +6,7 @@ describe UsersController do
   describe "GET 'show'" do
 
     before(:each) do
-      ## PD 2010-05-11 Every call to @user will use the factory method
+      ## PD 2010-05-11 Every call to @user we'll use the factory method
       ## in "spec/factories.rb". We never touch the database in this
       ## case.
       @user = Factory(:user)
@@ -41,12 +41,12 @@ describe UsersController do
   describe "GET 'new'" do
 
     it "should be successful" do
-      get 'new'
+      get :new
       response.should be_success
     end
     
     it "should have the right title" do
-      get 'new'
+      get :new
       response.should have_tag("title", /Sign up/)
     end
 
