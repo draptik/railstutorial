@@ -5,6 +5,12 @@ require File.expand_path(File.join(File.dirname(__FILE__),'..','config','environ
 require 'spec/autorun'
 require 'spec/rails'
 
+## PD 2010-05-12 WebRats
+require 'webrat'
+Webrat.configure do |config|
+  config.mode = :rails
+end
+
 # Uncomment the next line to use webrat's matchers
 #require 'webrat/integrations/rspec-rails'
 
