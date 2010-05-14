@@ -4,6 +4,14 @@ require 'redgreen'
 require 'autotest/timestamp'
 
 module Autotest::GnomeNotify
+
+  ## Ignore files
+  Autotest.add_hook :initialize do |autotest|
+    %w{.git .svn .hg .DS_Store ._* vendor tmp log doc}.each do |exception|
+      autotest.add_exception(exception)
+    end
+  end
+
   def self.notify title, msg, img
     system "notify-send '#{title}' '#{msg}' -i #{img} -t 3000"
   end
