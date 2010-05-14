@@ -1,12 +1,22 @@
 ActionController::Routing::Routes.draw do |map|
+
+  # RESTFUL RESOURCES ===============================================
   ## PD 2010-05-10 Make User model RESTful
   map.resources :users
+  
+  ## PD 2010-05-14 Make Session model RESTful
+  map.resources :sessions, :only => [:new, :create, :destroy]
+
+  # NAMED ROUTES ====================================================
+  map.signin  '/signin',  :controller => 'sessions', :action => 'new'
+  map.signout '/signout', :controller => 'sessions', :action => 'destroy'
 
   ## PD 2010-05-08 Routes for static pages
   map.contact '/contact', :controller => 'pages', :action => 'contact'
-  map.about '/about', :controller => 'pages', :action => 'about'
-  map.help '/help', :controller => 'pages', :action => 'help'
-  map.signup '/signup', :controller => 'users', :action => 'new'
+  map.about   '/about',   :controller => 'pages', :action => 'about'
+  map.help    '/help',    :controller => 'pages', :action => 'help'
+  map.signup  '/signup',  :controller => 'users', :action => 'new'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
 
