@@ -17,6 +17,9 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       @title = "Sign up"
+      ## Reset password input after failed password attempt
+      @user.password = nil
+      @user.password_confirmation = nil
       render 'new'
     end
   end
