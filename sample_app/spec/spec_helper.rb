@@ -57,4 +57,11 @@ Spec::Runner.configure do |config|
   # == Notes
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+
+
+  ## Listing 9.21 Rails tutorial
+  ## PD 2010-05-15 Simulate user signin inside tests
+  def test_sign_in(user)
+    controller.current_user = user
+  end
 end

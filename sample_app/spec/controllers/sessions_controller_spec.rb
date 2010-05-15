@@ -4,6 +4,7 @@ describe SessionsController do
   integrate_views
 
 
+  # GET NEW =========================================================
   describe "GET 'new'" do
 
     it "should be successful" do
@@ -18,6 +19,7 @@ describe SessionsController do
 
   end # GET new
 
+  # POST CREATE =====================================================
   describe "POST 'create'" do
 
     describe "invalid signin" do
@@ -66,5 +68,18 @@ describe SessionsController do
     end 
 
   end # "POST create"
+
+  # DELETE DESTROY ==================================================
+  describe "DELETE 'destroy'" do
+
+    it "should sign a user out" do
+      test_sign_in(Factory(:user))
+      controller.should be_signed_in
+      delete :destroy
+      controller.should_not be_signed_in
+      response.should redirect_to(root_path)
+    end
+
+  end # "DELETE 'destroy'"
 
 end

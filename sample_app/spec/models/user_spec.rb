@@ -125,8 +125,6 @@ describe User do
         matching_user.should == @user
       end
     end
-
-
   end
 
 
@@ -163,7 +161,6 @@ describe User do
       @user.remember_me!
       @user.remember_token.should_not be_nil
     end
-
-  end
+  end # "remember me"
 
 end

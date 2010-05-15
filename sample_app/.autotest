@@ -5,12 +5,6 @@ require 'autotest/timestamp'
 
 module Autotest::GnomeNotify
 
-  ## Ignore files
-  Autotest.add_hook :initialize do |autotest|
-    %w{.git .svn .hg .DS_Store ._* vendor tmp log doc}.each do |exception|
-      autotest.add_exception(exception)
-    end
-  end
 
   def self.notify title, msg, img
     system "notify-send '#{title}' '#{msg}' -i #{img} -t 3000"
@@ -31,20 +25,28 @@ module Autotest::GnomeNotify
     end
   end
   
-  ## ADD INTEGRATION TESTS TO AUTOTEST (normally disabled)
-  ## See Listing 5.14 in Ruby on Rails tutorial book
-  Autotest.add_hook :initialize do |autotest|
-    autotest.add_mapping(/^spec\/integration\/.*_spec\.rb$/) do
-      autotest.files_matching(/^spec\/integration\/.*_spec\.rb$/)
-    end
-  end
 
-  ## ADD INTEGRATION TESTS TO AUTOTEST (normally disabled)
+  # ## MAC OS X: ADD INTEGRATION TESTS TO AUTOTEST (normally disabled)
+  # ## See Listing 5.14 in Ruby on Rails tutorial book
+  # Autotest.add_hook :initialize do |autotest|
+  #   autotest.add_mapping(/^spec\/integration\/.*_spec\.rb$/) do
+  #     autotest.files_matching(/^spec\/integration\/.*_spec\.rb$/)
+  #   end
+  # end
+
+  ## UBUNTU: ADD INTEGRATION TESTS TO AUTOTEST (normally disabled)
   ## This is needed for Ubuntu!
   ## See Listing 5.15 in Ruby on Rails tutorial book
   Autotest.add_hook :initialize do |autotest|
+
+    ## Add integration tests
     autotest.add_mapping(%r%^spec/(integration)/.*rb$%) do|filename, _|
       filename
+    end
+
+    ## Ignore files (ie version control stuff)
+    %w{.git .svn .hg .DS_Store ._* vendor tmp log doc}.each do |exception|
+      autotest.add_exception(exception)
     end
   end
 
