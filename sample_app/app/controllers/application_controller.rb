@@ -2,7 +2,13 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
+  helper :all # include all helpers, all the time ## Note: For all
+              # Views, not for all Controllers
+
+  ## p. 287 tutorial: The following line also includes the
+  ## SessionHelper to all controllers of the application
+  include SessionsHelper
+
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
