@@ -2,11 +2,21 @@ class UsersController < ApplicationController
   ## Listing 10.9 By default, before filters apply to every action in
   ## a controller, so here we restrict the filter to act only on the
   ## :edit and :update actions by passing the :only options hash.
-  before_filter :authenticate, :only => [:edit, :update]
+  # before_filter :authenticate, :only => [:edit, :update]
+
+  ## Listing 10.19
+  before_filter :authenticate, :only => [:index, :edit, :update]
 
   ## Listing 10.12 We add a second before filter to call the
   ## correct_user method
   before_filter :correct_user, :only => [:edit, :update]
+
+   ## Listing 10.19
+  def index
+    @title = "All users"
+    # @users = User.all ## old
+    @users = User.paginate(:page => params[:page]) ## Listing 10.27
+  end
 
   def show
     @user = User.find(params[:id])
@@ -62,5 +72,5 @@ class UsersController < ApplicationController
   def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
-    end
+  end
 end

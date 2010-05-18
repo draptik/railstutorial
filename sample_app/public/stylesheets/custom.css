@@ -168,3 +168,12 @@ div.field div.actions {
     font-size: 12px;
     list-style: square;
 }
+
+/* Listing 10.21 */
+ul.users {
+    margin-top: 1em;
+}
+
+.users li {
+    list-style: none;
+}

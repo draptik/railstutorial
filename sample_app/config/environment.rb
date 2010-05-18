@@ -38,4 +38,8 @@ Rails::Initializer.run do |config|
   # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
+
+  ## Listing 10.24 (call "$ [sudo] rake gems:install" to install the gem)
+  config.gem 'will_paginate', :version => '2.3.12'
+
 end
