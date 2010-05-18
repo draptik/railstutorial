@@ -5,11 +5,17 @@ class UsersController < ApplicationController
   # before_filter :authenticate, :only => [:edit, :update]
 
   ## Listing 10.19
-  before_filter :authenticate, :only => [:index, :edit, :update]
+  # before_filter :authenticate, :only => [:index, :edit, :update]
+
+  ## Listing 10.39 (A before filter restricting the destroy action to admins.)
+  before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
 
   ## Listing 10.12 We add a second before filter to call the
   ## correct_user method
   before_filter :correct_user, :only => [:edit, :update]
+
+  ## Listing 10.39 (A before filter restricting the destroy action to admins.)
+  before_filter :admin_user,   :only => :destroy
 
    ## Listing 10.19
   def index
@@ -61,9 +67,19 @@ class UsersController < ApplicationController
     end
   end
 
-  ## Listing 10.9
+  ## Listing 10.39
+  def destroy
+    user = User.find(params[:id]).destroy
+    flash[:success] = "User destroyed."
+    redirect_to users_path
+  end
+
+  # =================================================================
+  # PRIVATE =========================================================
+  # =================================================================
   private
   
+  ## Listing 10.9
   def authenticate
     deny_access unless signed_in?
   end
@@ -73,4 +89,11 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
   end
+
+  ## Listing 10.39
+  def admin_user
+    redirect_to(root_path) unless current_user.admin?
+  end
+
+
 end
