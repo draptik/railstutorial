@@ -30,4 +30,33 @@ module SessionsHelper
     cookies.delete(:remember_token)
     self.current_user = nil
   end
+
+  ## Listing 10.13
+  def current_user?(user)
+    user == current_user
+  end
+
+  ## Listing 10.10
+  def deny_access
+    store_location ## Listing 10.16
+    flash[:notice] = "Please sign in to access this page."
+    redirect_to signin_path
+  end
+
+  ## Listing 10.16
+  def store_location
+    session[:return_to] = request.request_uri
+  end
+
+  ## Listing 10.16
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    clear_return_to
+  end
+
+  ## Listing 10.16
+  def clear_return_to
+    session[:return_to] = nil
+  end
+
 end
