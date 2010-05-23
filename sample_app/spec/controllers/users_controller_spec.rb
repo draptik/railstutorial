@@ -70,8 +70,6 @@ describe UsersController do
       get :new
       response.should have_tag("input[name=?][type=?]", "user[password_confirmation]", "password")
     end
-
-
   end
 
   describe "POST 'create'" do
@@ -288,6 +286,23 @@ describe UsersController do
         response.should have_tag("a[href=?]", "/users?page=2", "2")
         response.should have_tag("a[href=?]", "/users?page=2", "Next &raquo;")
       end
+
+
+      ## Exercise 10.6.4 Add tests to check that the delete links in
+      ## Listing 10.37 appear for admins but not for normal users.
+      it "should not show delete link for non-admin user" do
+        get :index
+        response.should_not have_tag("a[href=?]", "/users/1", "delete")
+      end
+
+      ## Exercise 10.6.4 Add tests to check that the delete links in
+      ## Listing 10.37 appear for admins but not for normal users.
+      it "should show delete link for admin user" do
+        admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        test_sign_in(admin)        
+        get :index
+        response.should have_tag("a[href=?]", "/users/1", "delete")
+      end
     end
   end
   
@@ -326,7 +341,27 @@ describe UsersController do
         delete :destroy, :id => @user
         response.should redirect_to(users_path)
       end
+
     end
+
+    # describe "as an admin user 2" do
+
+    #   ## Exercise 10.6.5 TODO
+    #   it "should prevent admin users from destroying themselves" do
+
+    #     # admin = Factory(:user, :admin => true)
+    #     # puts "YY " + admin
+    #     # test_sign_in(admin)
+    #     puts "YY " + @user.email
+    #     test_sign_in(@user)
+        
+    #     delete :destroy, :id => @user
+        
+    #     response.should have_tag("flash", "Admin suicide warning: Can't delete yourself...")
+
+    #   end
+
+    # end
   end
 
 

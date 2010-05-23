@@ -17,6 +17,12 @@ class UsersController < ApplicationController
   ## Listing 10.39 (A before filter restricting the destroy action to admins.)
   before_filter :admin_user,   :only => :destroy
 
+  ## Exercise 10.6.3 Signed-in users have no reason to access the new
+  ## and create actions in the Users controller. Arrange for such
+  ## users to be redirected to the root url if they do try to hit
+  ## those pages.
+  before_filter :signed_in_user, :only => [:new, :create]
+
    ## Listing 10.19
   def index
     @title = "All users"
@@ -30,8 +36,8 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
-    @title = "Sign up"
+      @user = User.new
+      @title = "Sign up"
   end
 
   def create
@@ -52,13 +58,13 @@ class UsersController < ApplicationController
   ## Listing 10.2
   def edit
     # @user = User.find(params[:id]) ## Listing 10.14
-    @title = "Edit user"
+    @title = "Edit user" ## Listing 10.14
   end
 
   ## Listing 10.7
   def update
     # @user = User.find(params[:id]) ## Listing 10.14
-    if @user.update_attributes(params[:user])
+    if @user.update_attributes(params[:user])  ## Listing 10.14
       flash[:success] = "Profile updated."
       redirect_to @user
     else
@@ -69,9 +75,18 @@ class UsersController < ApplicationController
 
   ## Listing 10.39
   def destroy
-    user = User.find(params[:id]).destroy
-    flash[:success] = "User destroyed."
-    redirect_to users_path
+    # puts "destroy method: " + User.find(params[:id]).email
+    # puts "destroy method: " + current_user.email
+
+    # if User.find(params[:id]) == current_user
+    #   flash[:error] = "Admin suicide warning: Can't delete yourself..."
+
+    # else
+      user = User.find(params[:id]).destroy
+      flash[:success] = "User destroyed."
+      redirect_to users_path
+    # end
+
   end
 
   # =================================================================
@@ -95,5 +110,12 @@ class UsersController < ApplicationController
     redirect_to(root_path) unless current_user.admin?
   end
 
-
+  ## Exercise 10.6.3 Signed-in users have no reason to access the new
+  ## and create actions in the Users controller. Arrange for such
+  ## users to be redirected to the root url if they do try to hit
+  ## those pages.
+  def signed_in_user
+    flash[:success] = "You are already signed in"
+    redirect_to root_path unless current_user?(@user)
+  end
 end
