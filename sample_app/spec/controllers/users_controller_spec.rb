@@ -35,6 +35,15 @@ describe UsersController do
       response.should have_tag("h2>img", :class => "gravatar")
     end
 
+    ## Listing 11.15 A test for showing microposts on the user show page
+    it "should show the user's microposts" do
+      mp1 = Factory(:micropost, :user => @user, :content => "Foo bar")
+      mp2 = Factory(:micropost, :user => @user, :content => "Baz quux")
+      get :show, :id => @user
+      response.should have_tag("span.content", mp1.content)
+      response.should have_tag("span.content", mp2.content)
+    end
+
   end
 
 

@@ -20,5 +20,12 @@ class Micropost < ActiveRecord::Base
 
   ## Listing 11.6
   belongs_to :user
-  
+
+  ## Listing 11.10 Ordering the microposts with default_scope
+  default_scope :order => 'created_at DESC'
+
+  ## Listing 11.14 The Micropost model validations
+  validates_presence_of :content, :user_id
+  validates_length_of   :content, :maximum => 140
+
 end

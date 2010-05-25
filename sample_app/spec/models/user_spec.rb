@@ -191,11 +191,32 @@ describe User do
 
     before(:each) do
       @user = User.create(@attr)
+      ## Listing 11.9 Testing the order of a user's microposts. 
+      @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
+      @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
     end
 
     it "should have a microposts attribute" do
       ## Test for presence of microposts attribute
       @user.should respond_to(:microposts)
     end
+
+    ## Listing 11.9 Testing the order of a user's microposts. 
+    ##
+    ## This test also verifies the basic correctness of the has_many
+    ## association itself, by checking that user.microposts is an
+    ## array of microposts.
+    it "should have the right microposts in the right order" do
+      @user.microposts.should == [@mp2, @mp1]
+    end
+
+    ## Listing 11.11 Testing that microposts are destroyed when users
+    ## are.
+    it "should destroy associated microposts" do
+      [@mp1, @mp2].each do |micropost|
+        Micropost.find_by_id(micropost.id).should be_nil 
+      end
+    end
+
   end
 end
