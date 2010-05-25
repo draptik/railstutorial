@@ -186,4 +186,18 @@ describe User do
     end
   end
 
+  ## Listing 11.5
+  describe "micropost associations" do
+
+    before(:each) do
+      @user = User.create(@attr)
+    end
+
+    it "should have a microposts attribute" do
+      ## Test for presence of microposts attribute
+      @user.should respond_to(:microposts)
+    end
+  end
+
+
 end

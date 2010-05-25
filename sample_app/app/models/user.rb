@@ -21,6 +21,8 @@ class User < ActiveRecord::Base
   attr_accessor :password # <- creates a virtual attribute 
   attr_accessible :name, :email, :password, :password_confirmation
 
+  ## Listing 11.7
+  has_many :microposts
 
   # CONSTANTS =======================================================
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
