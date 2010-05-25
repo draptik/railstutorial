@@ -344,24 +344,19 @@ describe UsersController do
 
     end
 
-    # describe "as an admin user 2" do
+    describe "as an admin user 2" do
 
-    #   ## Exercise 10.6.5 TODO
-    #   it "should prevent admin users from destroying themselves" do
-
-    #     # admin = Factory(:user, :admin => true)
-    #     # puts "YY " + admin
-    #     # test_sign_in(admin)
-    #     puts "YY " + @user.email
-    #     test_sign_in(@user)
-        
-    #     delete :destroy, :id => @user
-        
-    #     response.should have_tag("flash", "Admin suicide warning: Can't delete yourself...")
-
-    #   end
-
-    # end
+      ## Exercise 10.6.5 Modify the destroy action to prevent admin
+      ## users from destroying themselves. (Write a test first.)
+      it "should prevent admin users from destroying themselves" do
+        admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        test_sign_in(admin)
+        User.should_receive(:find).with(admin).and_return(admin)
+        delete :destroy, :id => admin
+        response.should redirect_to(users_path)
+        flash[:error].should =~ /Admin suicide warning/i
+      end
+    end
   end
 
 

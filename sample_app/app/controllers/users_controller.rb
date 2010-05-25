@@ -78,7 +78,9 @@ class UsersController < ApplicationController
     ## Exercise 10.6.5 Modify the destroy action to prevent admin
     ## users from destroying themselves.
     user =  User.find(params[:id])
-    unless current_user?(user)
+    if current_user?(user)
+      flash[:error] = "Admin suicide warning: Can't delete yourself."
+    else
       user.destroy
       flash[:success] = "User destroyed."
     end
