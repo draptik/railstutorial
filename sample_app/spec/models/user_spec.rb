@@ -198,5 +198,4 @@ describe User do
       @user.should respond_to(:microposts)
     end
   end
-
 end
