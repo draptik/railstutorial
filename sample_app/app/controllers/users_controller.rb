@@ -75,18 +75,14 @@ class UsersController < ApplicationController
 
   ## Listing 10.39
   def destroy
-    # puts "destroy method: " + User.find(params[:id]).email
-    # puts "destroy method: " + current_user.email
-
-    # if User.find(params[:id]) == current_user
-    #   flash[:error] = "Admin suicide warning: Can't delete yourself..."
-
-    # else
-      user = User.find(params[:id]).destroy
+    ## Exercise 10.6.5 Modify the destroy action to prevent admin
+    ## users from destroying themselves.
+    user =  User.find(params[:id])
+    unless current_user?(user)
+      user.destroy
       flash[:success] = "User destroyed."
-      redirect_to users_path
-    # end
-
+    end
+    redirect_to users_path
   end
 
   # =================================================================
