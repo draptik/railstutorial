@@ -1,3 +1,15 @@
+# == Schema Information
+# Schema version: 20100523162612
+#
+# Table name: microposts
+#
+#  id         :integer         not null, primary key
+#  content    :string(255)
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Micropost < ActiveRecord::Base
   ## Listing 11.2 Making the content attribute (and only the content
   ## attribute) accessible. 
