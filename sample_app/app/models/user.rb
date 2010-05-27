@@ -65,6 +65,20 @@ class User < ActiveRecord::Base
     return user if user.has_password?(submitted_password)
   end
 
+  ## Listing 11.32 A preliminary implementation for the micropost status feed
+  def feed
+    # This is preliminary. See Chapter 12 for the full implementation.
+    #
+    # The question mark ensures that id is properly escaped before
+    # being included in the underlying SQL query, thereby avoiding a
+    # serious security breach called SQL injection. (The id attribute
+    # here is just an integer, so there is no danger in this case, but
+    # always escaping variables injected into SQL statements is a good
+    # habit to cultivate.)
+    Micropost.all(:conditions => ["user_id = ?", id])
+  end
+
+
   # PRIVATE =========================================================
   private
 

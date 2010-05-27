@@ -7,6 +7,10 @@ ActionController::Routing::Routes.draw do |map|
   ## PD 2010-05-14 Make Session model RESTful
   map.resources :sessions, :only => [:new, :create, :destroy]
 
+  ## Listing 11.21 Routes for the Microposts resource
+  map.resources :microposts, :only => [:create, :destroy]
+
+
   # NAMED ROUTES ====================================================
   map.signin  '/signin',  :controller => 'sessions', :action => 'new'
   map.signout '/signout', :controller => 'sessions', :action => 'destroy'

@@ -94,11 +94,12 @@ class UsersController < ApplicationController
   # PRIVATE =========================================================
   # =================================================================
   private
-  
-  ## Listing 10.9
-  def authenticate
-    deny_access unless signed_in?
-  end
+
+  ## Moved to app/helpers/sessions_helper.rb!
+  # ## Listing 10.9
+  # def authenticate
+  #   deny_access unless signed_in?
+  # end
 
   ## Listing 10.12
   def correct_user
