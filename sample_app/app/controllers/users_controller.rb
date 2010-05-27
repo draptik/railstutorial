@@ -33,7 +33,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @microposts = @user.microposts.paginate(:page => params[:page])
-    @title = @user.name
+    # @title = @user.name # old
+    ## Listing 11.18 Adding an @microposts instance variable to the user show action. 
+    @title = CGI.escapeHTML(@user.name)
   end
 
   def new

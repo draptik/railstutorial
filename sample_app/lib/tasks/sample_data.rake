@@ -30,6 +30,7 @@ namespace :db do
                    :password_confirmation => password)
     end
 
+    ## Listing 11.20 Adding microposts to the sample data
     User.all(:limit => 6).each do |user|
       50.times do
         user.microposts.create!(:content => Faker::Lorem.sentence(5))
