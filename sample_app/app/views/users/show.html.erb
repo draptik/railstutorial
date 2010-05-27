@@ -5,13 +5,13 @@
       <h2>
 	<%= gravatar_for @user %>
 	<%= h @user.name %>
-        <% unless @user.microposts.empty?  %>
-        <table class="microposts">
-          <%= render @microposts %>
-        </table>
-        <%= will_paginate @microposts %>
-        <% end  %>
       </h2>
+      <% unless @user.microposts.empty?  %>
+      <table class="microposts">
+        <%= render @microposts %>
+      </table>
+      <%= will_paginate @microposts %>
+      <% end  %>
     </td>
     <td class="sidebar round">
       <strong>Name</strong> <%= h @user.name %><br />
