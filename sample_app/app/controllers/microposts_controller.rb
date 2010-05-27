@@ -1,7 +1,10 @@
 ## Listing 11.24 Adding authentication the the Microposts controller action
 class MicropostsController < ApplicationController
   before_filter :authenticate
-
+  
+  ## Listing 11.40 The Microposts controller destroy action. 
+  before_filter :authorized_user, :only => :destroy
+  
   def create
     ## Listing 11.26 The Microposts controller create action
     @micropost  = current_user.microposts.build(params[:micropost])
@@ -19,6 +22,19 @@ class MicropostsController < ApplicationController
     end
   end
 
+  ## Listing 11.40 The Microposts controller destroy action. 
   def destroy
+    @micropost.destroy
+    redirect_back_or root_path
   end
+
+  # PRIVATE =========================================================
+  private
+
+  ## Listing 11.40 The Microposts controller destroy action. 
+  def authorized_user
+    @micropost = Micropost.find(params[:id])
+    redirect_to root_path unless current_user?(@micropost.user)
+  end
+
 end

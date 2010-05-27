@@ -5,4 +5,10 @@
       Posted <%= time_ago_in_words(micropost.created_at) %> ago.
     </span>
   </td>
+   <% if current_user?(micropost.user) %>
+  <td>
+    <%= link_to "delete", micropost, :method => :delete,
+                                     :confirm => "You sure?" %>
+  </td>
+  <% end %>
 </tr>
