@@ -15,7 +15,7 @@ describe "Microposts" do
 
     describe "failure" do
 
-      it "should not make a new micropost" do
+      it "should not make a new micropost with empty content" do
         lambda do
           visit root_path
           click_button
