@@ -28,6 +28,13 @@ class MicropostsController < ApplicationController
     redirect_back_or root_path
   end
 
+  ## Exercise 11.5.1 Character counter using JavaScript
+  # def character_count
+  #   respond_to do |format|
+  #     format.js
+  #   end
+  # end
+
   # PRIVATE =========================================================
   private
 
