@@ -2,12 +2,12 @@
 <%= f.error_messages %>
 <div class="field">
   <%= f.text_area :content %>
-  <p>Charcount: <span id="word_count_out_id">a</span></p>
-<%= warn_if_word_count_exceeded("micropost_content", 'word_count_out_id', 140, :frequency => 0.10) %>
-<div class="actions">
-  <%= f.submit "Submit" %>
+  <p>Charcount: <span id="word_count_out_id">[char count goes here]</span></p>
+  <%= warn_if_word_count_exceeded("micropost_content", 'word_count_out_id', 140, :frequency => 0.10) %>
+  <div class="actions">
+    <%= f.submit "Submit" %>
+  </div>
 </div>
-
 <% end %>
 
 
