@@ -24,8 +24,11 @@ class Micropost < ActiveRecord::Base
   ## Listing 11.10 Ordering the microposts with default_scope
   default_scope :order => 'created_at DESC'
 
+  ## Exercise 11.5.1
+  MAX_CHARS = 140
+
   ## Listing 11.14 The Micropost model validations
   validates_presence_of :content, :user_id
-  validates_length_of   :content, :maximum => 140
+  validates_length_of   :content, :maximum => MAX_CHARS
 
 end

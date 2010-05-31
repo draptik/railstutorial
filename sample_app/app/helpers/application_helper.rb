@@ -15,6 +15,7 @@ module ApplicationHelper
   end
 
 
+  ## Exercise 11.5.1
   def warn_if_word_count_exceeded(field_id, update_id, maximum_number_of_words, options = {})
     ##
     ## URL for wordcount: http://stufftohelpyouout.blogspot.com/2009/09/rubyrails-and-javascript-word-count.html
@@ -24,6 +25,29 @@ module ApplicationHelper
     ## URL for basic char count: http://www.swards.net/2009/05/character-count-textarea-in-ruby-on.html
     ##
     function = "$('#{update_id}').innerHTML = $F('#{field_id}').length;"
+    out = javascript_tag(function)
+    out += observe_field(field_id, options.merge(:function => function))
+  end
+
+  ## Exercise 11.5.1
+  def warn_if_char_count_exceeded(field_id, update_id, maximum_number_of_chars, options = {})
+
+    ## 1. Simple counter ------------------------------------------------
+    #     function = "var remaining_chars = $(#{maximum_number_of_chars}) - $F('#{field_id}').length; 
+    # $('#{update_id}').innerHTML = remaining_chars;"
+    
+    ## 2. Countdown with red background if count is exceeded ------------
+    function = "var out = []; 
+var remaining_chars = $(#{maximum_number_of_chars}) - $F('#{field_id}').length; 
+if (remaining_chars >= 0) { 
+out = remaining_chars; 
+document.getElementById('#{field_id}').style.backgroundColor='white' 
+} else { 
+out = 'Too long by ' + remaining_chars; 
+document.getElementById('#{field_id}').style.backgroundColor='red' 
+}
+$('#{update_id}').innerHTML = out;"
+
     out = javascript_tag(function)
     out += observe_field(field_id, options.merge(:function => function))
   end
