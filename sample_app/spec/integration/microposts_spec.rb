@@ -77,6 +77,7 @@ describe "Microposts" do
   end
 
   # =================================================================
+  ## Ecercise 11.5.2
   def create_valid_micropost_and_submit(string)
     visit root_path
     fill_in :micropost_content, :with => string
