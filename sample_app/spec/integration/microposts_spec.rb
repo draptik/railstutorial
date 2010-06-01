@@ -56,7 +56,8 @@ describe "Microposts" do
   describe "side bar content" do
 
     it "should contain the micropost sidebar (with elements)" do
-      # Create a single micropost.
+      # Create a single micropost. TODO The following 3 lines are code
+      # duplication. How do we externalize this in Rspec??
       visit root_path
       fill_in :micropost_content, :with => "lorem ipsum"
       click_button
