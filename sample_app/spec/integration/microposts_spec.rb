@@ -56,8 +56,6 @@ describe "Microposts" do
   describe "side bar content" do
 
     it "should contain the micropost sidebar (with elements)" do
-      # Create a single micropost. TODO The following 3 lines are code
-      # duplication. How do we externalize this in Rspec??
       create_valid_micropost_and_submit("lorem ipsum")
       response.should have_tag("img.gravatar")
       response.should have_tag("span.user_name")
@@ -65,14 +63,12 @@ describe "Microposts" do
     end
 
     it "should contain a single micropost with correct pluralization" do
-      # Create a single micropost.
       create_valid_micropost_and_submit("lorem ipsum")
       response.should_not have_tag("span.microposts", "microposts")  # plural
       response.should have_tag("span.microposts", /1 micropost/)     # singular
     end
 
     it "should contain 2 microposts with correct pluralization" do
-      # Create two microposts.
       create_valid_micropost_and_submit("lorem ipsum")
       create_valid_micropost_and_submit("lorem ipsum2")
       response.should_not have_tag("span.microposts", "micropost")  # singular
