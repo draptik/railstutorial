@@ -184,27 +184,50 @@ h2.micropost {
     margin-bottom: 0;
 }
 
-table.microposts tr {
-    height: 70px;
+
+ol.microposts {
+    list-style: none outside none;
 }
 
-table.microposts tr td.gravatar {
+/* CSS Exercise 11.5.3 Format of microposts -------------------- */
+ol.microposts li.hentry {
     border-top: 1px solid #ccc;
-    vertical-align: top;
-    width: 50px;
+    padding: 10px 0 8px;
+    position: relative; /* !!! */
 }
 
-table.microposts tr td.micropost {
-    border-top: 1px solid #ccc;
-    vertical-align: top;
-    padding-top: 10px;
+ol.microposts li.hentry span.gravatar {
+    float: left;
+    width: 50px;         /* default width for gravatar pics */
+    position: absolute;  /* position!! */
 }
 
-table.microposts tr td.micropost span.timestamp {
-    display: block;
+ol.microposts li.hentry span.status-body {
+    margin-left: 56px;
+    display: block;     /* BLOCK */
+    min-height: 48px;
+}
+
+ol.microposts li.hentry span.status-content {
+    font-size: 1em;
+    display: inline-block; /* required for margin-right below */
+    margin-right: 50px;    /* requires inline-block */
+}
+
+ol.microposts li.hentry span.timestamp {
+    display: block;  /* BLOCK */
     font-size: 85%;
     color: #666;
 }
+
+ol.microposts li.hentry span.action {
+    border-width: 0;
+    line-height: 1.25em;
+    position: absolute;  /* POSITION */
+    right: 10px;
+    top: 8px;
+}
+/* END OF: CSS Exercise 11.5.3 Format of microposts ------------ */
 
 div.user_info img {
     padding-right: 0.1em;
