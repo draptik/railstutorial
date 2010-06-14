@@ -8,17 +8,81 @@ describe PagesController do
   end
 
   describe "GET 'home'" do
+
     it "should be successful" do
       get :home
       response.should be_success
     end
 
     it "It should have the right title" do
-      get 'home'
+      get :home
       response.should have_tag("title",
                                @base_title + "Home")
     end
+
+    ## Exercise 11.5.4 Add tests for micropost pagination
+    it "should paginate microposts" do
+
+      # Login a valid user and create microposts
+      @user = test_sign_in(Factory(:user))
+      @micropost = Factory(:micropost, :user => @user)
+
+      # Create 30 microposts
+      30.times { Factory(:micropost, :user => @user) }
+      get :home
+
+      # Check pagination controls
+      response.should have_tag("div.pagination")
+      response.should have_tag("span", "&laquo; Previous")
+      response.should have_tag("span", "1")
+      response.should have_tag("a[href=?]", "/?page=2", "2")
+      response.should have_tag("a[href=?]", "/?page=2", "Next &raquo;")
+    end
+
+    ## Exercise 11.5.6 Test to make sure delete links do not appear
+    ## for microposts not created by the current user
+    describe "Display delete link" do
+
+      before(:each) do
+        # Login a valid user
+        @user = test_sign_in(Factory(:user))
+        
+        # Create another user
+        @attr = { :name => "New User",
+          :email => "user@example.com",
+          :password => "foobar",
+          :password_confirmation => "foobar" }
+        @other_user = Factory(:user, @attr)
+      end
+
+      describe "failure" do
+        
+        before(:each) do
+          @other_micropost = Factory(:micropost, :user => @other_user)
+          30.times { Factory(:micropost, :user => @other_user) }
+        end
+        
+        it "should not have a delete link for another user" do
+          get :home, :id => @other_user
+          response.should_not have_tag("span.action")
+        end
+      end
+      
+      describe "success" do
+        
+        before(:each) do
+          @micropost = Factory(:micropost, :user => @user)
+          30.times { Factory(:micropost, :user => @user) }
+        end
+
+        it "should have a delete link for a current user" do
+          get :home, :id => @user
+          response.should have_tag("span.action")
+        end
+      end
+    end
   end
+
 
   describe "GET 'contact'" do
     it "should be successful" do
@@ -45,27 +109,4 @@ describe PagesController do
                                @base_title + "About")
     end
   end
-
-  ## Exercise 11.5.4 Add tests for micropost pagination
-  describe "GET 'home'" do
-
-    before(:each) do
-      @user = test_sign_in(Factory(:user))
-      @micropost = Factory(:micropost, :user => @user)
-    end
-
-    it "should paginate microposts" do
-      # Create 30 microposts
-      30.times { Factory(:micropost, :user => @user) }
-      get :home
-      # Check pagination controls
-      response.should have_tag("div.pagination")
-      response.should have_tag("span", "&laquo; Previous")
-      response.should have_tag("span", "1")
-      response.should have_tag("a[href=?]", "/?page=2", "2")
-      response.should have_tag("a[href=?]", "/?page=2", "Next &raquo;")
-    end
-  end
-
-
 end
