@@ -117,7 +117,10 @@ class UsersController < ApplicationController
   ## users to be redirected to the root url if they do try to hit
   ## those pages.
   def signed_in_user
-    flash[:success] = "You are already signed in"
-    redirect_to root_path unless current_user?(@user)
+    if current_user?(@user)
+      flash[:success] = "You are already signed in"
+    else
+      redirect_to root_path# unless current_user?(@user)
+    end
   end
 end
