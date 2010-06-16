@@ -10,6 +10,13 @@ ActionController::Routing::Routes.draw do |map|
   ## Listing 11.21 Routes for the Microposts resource
   map.resources :microposts, :only => [:create, :destroy]
 
+  # NESTED ROUTES ===================================================
+  ## PD 2010-06-15
+  ##
+  ## Exercise 11.5.8 Add a nested route so that /users/1/microposts
+  ## shows all the microposts for user 1. (You will also have to add a
+  ## Microposts controller index action and corresponding view.)
+  map.resources :users, :has_many => :microposts
 
   # NAMED ROUTES ====================================================
   map.signin  '/signin',  :controller => 'sessions', :action => 'new'
