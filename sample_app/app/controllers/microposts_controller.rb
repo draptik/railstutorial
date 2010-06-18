@@ -1,5 +1,6 @@
-## Listing 11.24 Adding authentication the the Microposts controller action
 class MicropostsController < ApplicationController
+  
+  ## Listing 11.24 Adding authentication the the Microposts controller action
   before_filter :authenticate
   
   ## Listing 11.40 The Microposts controller destroy action. 
@@ -45,7 +46,9 @@ class MicropostsController < ApplicationController
   ## shows all the microposts for user 1. (You will also have to add a
   ## Microposts controller index action and corresponding view.)
   def index
-    redirect_to user_path(@user_id) # user_id requires find_user method in private section below
+    ## Adding a @microposts instance variable to the micropost index action. 
+    @microposts = @user.microposts.paginate(:page => params[:page])
+    @title = CGI.escapeHTML(@user.name)
   end
 
   # PRIVATE =========================================================
@@ -61,7 +64,7 @@ class MicropostsController < ApplicationController
   ## shows all the microposts for user 1. (You will also have to add a
   ## Microposts controller index action and corresponding view.)
   def find_user
-    @user_id = params[:user_id]
+    @user = User.find(params[:user_id])
   end
 
 end

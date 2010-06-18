@@ -30,11 +30,14 @@ class UsersController < ApplicationController
     @users = User.paginate(:page => params[:page]) ## Listing 10.27
   end
 
+  ## TODO 1. This method should be moved to the micropost controller's index action!
+  ## TODO 2. Copy the content from user show view to micropost index view
+  ## TODO 3. Remove user show view?
+  ## TODO 4. Routes: Exclude show action from user?
   def show
     @user = User.find(params[:id])
-    @microposts = @user.microposts.paginate(:page => params[:page])
-    # @title = @user.name # old
     ## Listing 11.18 Adding an @microposts instance variable to the user show action. 
+    @microposts = @user.microposts.paginate(:page => params[:page])
     @title = CGI.escapeHTML(@user.name)
   end
 
