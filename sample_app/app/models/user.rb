@@ -95,8 +95,10 @@ class User < ActiveRecord::Base
     return user if user.has_password?(submitted_password)
   end
 
-  ## Listing 11.32 A preliminary implementation for the micropost status feed
   def feed
+    ## Listing 11.32 A preliminary implementation for the micropost
+    ## status feed
+    #
     # This is preliminary. See Chapter 12 for the full implementation.
     #
     # The question mark ensures that id is properly escaped before
@@ -105,7 +107,10 @@ class User < ActiveRecord::Base
     # here is just an integer, so there is no danger in this case, but
     # always escaping variables injected into SQL statements is a good
     # habit to cultivate.)
-    Micropost.all(:conditions => ["user_id = ?", id])
+    # Micropost.all(:conditions => ["user_id = ?", id])
+
+    ## Listing 12.42. Adding the completed feed to the User model. 
+    Micropost.from_users_followed_by(self)
   end
 
   ## Listing 12.13 The following? and follow! utility methods.
