@@ -94,16 +94,38 @@ class UsersController < ApplicationController
 
   ## Listing 12.29. The following and followers actions.
   def following
-    @title = "Following"
-    @user = User.find(params[:id])
-    @users = @user.following.paginate(:page => params[:page])
-    render 'show_follow'
+    # @title = "Following"
+    # @user = User.find(params[:id])
+    # @users = @user.following.paginate(:page => params[:page])
+    # render 'show_follow'
+    ## Exercise 12.5.2 The following and followers actions in Listing
+    ## 12.29 still have considerable duplication. Verify that the
+    ## show_follow method in Listing 12.47 eliminates this
+    ## duplication.
+    show_follow(:following)
   end
 
   def followers
-    @title = "Followers"
+    # @title = "Followers"
+    # @user = User.find(params[:id])
+    # @users = @user.followers.paginate(:page => params[:page])
+    # render 'show_follow'
+    ## Exercise 12.5.2 The following and followers actions in Listing
+    ## 12.29 still have considerable duplication. Verify that the
+    ## show_follow method in Listing 12.47 eliminates this
+    ## duplication.
+    show_follow(:followers)
+  end
+
+  ## Exercise 12.5.2 The following and followers actions in Listing
+  ## 12.29 still have considerable duplication. Verify that the
+  ## show_follow method in Listing 12.47 eliminates this duplication.
+  ##
+  ## Listing 12.47. Refactored following and followers actions.
+  def show_follow(action)
+    @title = action.to_s.capitalize
     @user = User.find(params[:id])
-    @users = @user.followers.paginate(:page => params[:page])
+    @users = @user.send(action).paginate(:page => params[:page])
     render 'show_follow'
   end
   
