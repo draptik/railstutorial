@@ -65,4 +65,13 @@ describe Relationship do
     end
   end
 
+  ## Exercise 12.5.1 Add tests for dependent :destroy in the
+  ## Relationship model (Listing 12.5 and Listing 12.17) by following
+  ## the example in Listing 11.11.
+  it "should destroy associated relationships" do
+    @relationship.save
+    Relationship.find_by_id(@relationship.id) == @relationship.id
+    @relationship.destroy
+    Relationship.find_by_id(@relationship.id).should be_nil
+  end
 end
