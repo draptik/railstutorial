@@ -2,13 +2,26 @@ ActionController::Routing::Routes.draw do |map|
 
   # RESTFUL RESOURCES ===============================================
   ## PD 2010-05-10 Make User model RESTful
-  map.resources :users
-  
+  #map.resources :users
+
+  ## PD 2010-06-20
+  ## 
+  ## Listing 12.19 Adding following and followers actions to the Users
+  ## controller.
+  ##
+  ## URLs for user following and followers will look like
+  ## /users/1/following and /users/1/followers
+  map.resources :users, :member => { :following => :get, :followers => :get }
+
   ## PD 2010-05-14 Make Session model RESTful
   map.resources :sessions, :only => [:new, :create, :destroy]
 
   ## Listing 11.21 Routes for the Microposts resource
   map.resources :microposts, :only => [:create, :destroy]
+
+  ## Listing 12.24. Adding the routes for user relationships.
+  map.resources  :relationships, :only => [:create, :destroy]
+
 
   # NESTED ROUTES ===================================================
   ## PD 2010-06-15

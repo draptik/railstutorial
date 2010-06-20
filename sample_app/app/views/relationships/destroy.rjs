@@ -1,0 +1,3 @@
+## Listing 12.39. The Ruby JavaScript (RJS) to destroy a following relationship. 
+page.replace_html :follow_form, :partial => 'users/follow'
+page.replace_html :followers, "#{@user.followers.count} followers"

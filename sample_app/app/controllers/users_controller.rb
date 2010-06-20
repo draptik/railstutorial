@@ -8,7 +8,10 @@ class UsersController < ApplicationController
   # before_filter :authenticate, :only => [:index, :edit, :update]
 
   ## Listing 10.39 (A before filter restricting the destroy action to admins.)
-  before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
+  # before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
+
+  ## Listing 12.29. The following and followers actions.
+  before_filter :authenticate, :except => [:show, :new, :create]
 
   ## Listing 10.12 We add a second before filter to call the
   ## correct_user method
@@ -30,10 +33,6 @@ class UsersController < ApplicationController
     @users = User.paginate(:page => params[:page]) ## Listing 10.27
   end
 
-  ## TODO 1. This method should be moved to the micropost controller's index action!
-  ## TODO 2. Copy the content from user show view to micropost index view
-  ## TODO 3. Remove user show view?
-  ## TODO 4. Routes: Exclude show action from user?
   def show
     @user = User.find(params[:id])
     ## Listing 11.18 Adding an @microposts instance variable to the user show action. 
@@ -93,6 +92,21 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
+  ## Listing 12.29. The following and followers actions.
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.following.paginate(:page => params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(:page => params[:page])
+    render 'show_follow'
+  end
+  
   # =================================================================
   # PRIVATE =========================================================
   # =================================================================

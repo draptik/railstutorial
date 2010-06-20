@@ -9,6 +9,43 @@ describe PagesController do
 
   describe "GET 'home'" do
 
+    ## Listing 12.20. Testing the following/follower statistics on the
+    ## Home page.
+    describe "when not signed in" do
+
+      before(:each) do
+        get :home
+      end
+
+      it "should be successful" do
+        response.should be_success
+      end
+
+      it "should have the right title" do
+        response.should have_tag("title", @base_title + "Home")
+      end
+    end
+
+    describe "when signed in" do
+
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        other_user = Factory(:user, :email => Factory.next(:email))
+        other_user.follow!(@user)
+      end
+
+      it "should have the right follower/following counts" do
+        get :home
+        ## Using named routes to verify that the links have the right URLs.
+        response.should have_tag("a[href=?]", following_user_path(@user), 
+                                 /0 following/)
+        response.should have_tag("a[href=?]", followers_user_path(@user), 
+                                 /1 follower/)
+      end
+    end
+    ## ------------------------------------------------------
+
+
     it "should be successful" do
       get :home
       response.should be_success
