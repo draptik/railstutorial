@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20100523162612
+# Schema version: 20100618213205
 #
 # Table name: users
 #
@@ -17,12 +17,42 @@
 require'digest'
 class User < ActiveRecord::Base
 
+  # ASSOCIATIONS ====================================================
+
+  ## Listing 11.7, 11.12
+  has_many :microposts, :dependent => :destroy
+
+  ## Listing 12.5 Implementing the user/relationships has_many
+  ## association.
+  ##
+  ## This is the short form of adding "belongs_to :user" to micropost
+  ## model and adding "belongs_to :has_many :microposts" to user
+  ## model.
+  ##
+  ## An id used in this manner to connect two database tables is known
+  ## as a foreign key, and when the foreign key for a User model
+  ## object is user_id, Rails can infer the association automatically:
+  ## by default, Rails expects a foreign key of the form <class>_id,
+  ## where <class> is the lower-case version of the class name.
+  has_many :relationships, :foreign_key => "follower_id",
+                           :dependent => :destroy
+
+  ## Listing 12.11 Adding the User model following association with
+  ## has_many :through.
+  has_many :following, :through => :relationships, :source => :followed
+
+  ## Listing 12.17 Implementing user.followers using reverse
+  ## relationships.
+  has_many :reverse_relationships, :foreign_key => "followed_id",
+                                   :class_name => "Relationship",
+                                   :dependent => :destroy
+  has_many :followers, :through => :reverse_relationships, :source => :follower
+
+
   # ATTRIBUTES ======================================================
   attr_accessor :password # <- creates a virtual attribute 
   attr_accessible :name, :email, :password, :password_confirmation
 
-  ## Listing 11.7, 11.12
-  has_many :microposts, :dependent => :destroy
 
   # CONSTANTS =======================================================
   EmailRegex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -78,6 +108,19 @@ class User < ActiveRecord::Base
     Micropost.all(:conditions => ["user_id = ?", id])
   end
 
+  ## Listing 12.13 The following? and follow! utility methods.
+  def following?(followed)
+    relationships.find_by_followed_id(followed)
+  end
+
+  def follow!(followed)
+    relationships.create!(:followed_id => followed.id)
+  end
+
+  ## Listing 12.15 Unfollowing a user by destroying a user relationship.
+  def unfollow!(followed)
+    relationships.find_by_followed_id(followed).destroy
+  end
 
   # PRIVATE =========================================================
   private

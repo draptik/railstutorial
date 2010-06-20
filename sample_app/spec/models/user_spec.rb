@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20100523162612
+# Schema version: 20100618213205
 #
 # Table name: users
 #
@@ -238,4 +238,82 @@ describe User do
       end
     end
   end
+
+
+  ## Listing 12.4. Testing for the user.relationships attribute.
+  describe "relationships" do
+
+    before(:each) do
+      @user = User.create!(@attr)
+      @followed = Factory(:user)
+    end
+
+    it "should have a relationships method" do
+      @user.should respond_to(:relationships)
+    end
+  end # end relationships
+
+
+  ## Listing 12.10. A test for the user.following attribute.
+  describe "relationships" do
+
+    before(:each) do
+      @user = User.create!(@attr)
+      @followed = Factory(:user)
+    end
+
+    it "should have a relationships method" do
+      @user.should respond_to(:relationships)
+    end
+
+    it "should have a following method" do
+      @user.should respond_to(:following)
+    end
+
+    ## Tests for some following utility methods.
+    it "should have a following? method" do
+      @user.should respond_to(:following?)
+    end
+
+    it "should have a follow! method" do
+      @user.should respond_to(:follow!)
+    end
+
+    it "should follow another user" do
+      @user.follow!(@followed)
+      @user.should be_following(@followed)
+    end
+
+    it "should include the followed user in the following array" do
+      @user.follow!(@followed)
+      @user.following.include?(@followed).should be_true
+    end
+
+    ## Listing 12.14. A test for unfollowing a user.
+    it "should have an unfollow! method" do
+      @followed.should respond_to(:unfollow!)
+    end
+
+    it "should unfollow a user" do
+      @user.follow!(@followed)
+      @user.unfollow!(@followed)
+      @user.should_not be_following(@followed)
+    end
+
+    ## Listing 12.16. Testing for reverse relationships.
+    it "should have a reverse_relationships method" do
+      @user.should respond_to(:reverse_relationships)
+    end
+
+    it "should have a followers method" do
+      @user.should respond_to(:followers)
+    end
+
+    it "should include the follower in the followers array" do
+      @user.follow!(@followed)
+      @followed.followers.include?(@user).should be_true
+    end
+    
+  end
+
 end
