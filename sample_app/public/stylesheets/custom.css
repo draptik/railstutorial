@@ -229,9 +229,13 @@ ol.microposts li.hentry span.action {
 }
 /* END OF: CSS Exercise 11.5.3 Format of microposts ------------ */
 
+ul.users,
+ol.microposts,
 ol.no-gravatar {
     margin-left: 0;
+    width: 100%; /* TODO: Not sure if I really want this */
 }
+
 ol.microposts li.hentry span.no-gravatar {
     margin-left: 0;
 }

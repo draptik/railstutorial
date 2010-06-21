@@ -11,9 +11,7 @@
       <% end %>
     </td>
     <td class="sidebar round">
-      <strong>Name</strong> <%= h @user.name %><br />
-      <strong>URL</strong> <%= link_to user_path(@user), @user %><br />
-      <strong>Microposts</strong> <%= @user.microposts.count %>
+      <%= render :partial => 'pages/user_info', :locals => { :user_input => @user } %>
       <%= render 'pages/stats' %>
       <% unless @users.empty? %>
         <% @users.each do |user| %>
