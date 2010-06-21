@@ -63,4 +63,29 @@ describe "Users" do
     end # "sign in/out"
 
   end
+
+  ## Exercise 12.5.5 Write an integration test for following and
+  ## unfollowing a user.
+  describe "follow/unfollow" do
+    describe "failure" do
+      it "should not follow an unknown user" do
+        user = Factory(:user)
+        visit signin_path
+        fill_in :email,    :with => user.email
+        fill_in :password, :with => user.password
+        click_button
+
+        # other_user = Factory(:user, :email => Factory.next(:email))
+        # user.follow!(other_user)
+
+        ## TODO 1. Visit another user's profile
+        ## TODO 2. Click the follow button
+        ## TODO 3. Confirm result
+        ## TODO 4. Click unfollow button
+        ## TODO 5. Confirm result
+
+        
+      end
+    end
+  end
 end
