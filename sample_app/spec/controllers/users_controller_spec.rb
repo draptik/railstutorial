@@ -44,6 +44,31 @@ describe UsersController do
       response.should have_tag("span.content", mp2.content)
     end
 
+    ## Exercise 12.5.4 Tests for the stats on the profile page
+    describe "varify stats" do
+
+      ## Create users which are being followed and users which the
+      ## current user is following
+      it "should have the right follower/following counts" do
+
+        first_user_to_follow = Factory(:user, :email => Factory.next(:email))
+        first_user_to_follow.follow!(@user)
+        second_user_to_follow = Factory(:user, :email => Factory.next(:email))
+        second_user_to_follow.follow!(@user)
+
+        first_user_being_followed = Factory(:user, :email => Factory.next(:email))
+        @user.follow!(first_user_being_followed)
+        second_user_being_followed = Factory(:user, :email => Factory.next(:email))
+        @user.follow!(second_user_being_followed)
+        third_user_being_followed = Factory(:user, :email => Factory.next(:email))
+        @user.follow!(third_user_being_followed)
+
+        get :show, :id => @user
+        response.should have_tag("a[href=?]", following_user_path(@user), /3 following/)
+        response.should have_tag("a[href=?]", followers_user_path(@user), /2 follower/)
+      end
+    end
+
   end
 
 
