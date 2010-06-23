@@ -1,0 +1,19 @@
+<% form_for @micropost do |f|  %>
+<%= f.error_messages %>
+<div class="field">
+  <%= f.text_area :content %>
+  <p>Characters left: <span id="char_count_out_id">
+  [char count goes here]
+  </span></p>
+  <%= warn_if_char_count_exceeded(
+                                  "micropost_content",
+                                  'char_count_out_id',
+                                  Micropost::MAX_CHARS,
+                                  :frequency => 0.10) %>
+  <div class="actions">
+    <%= f.submit "Submit" %>
+  </div>
+</div>
+<% end %>
+
+

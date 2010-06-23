@@ -1,0 +1,23 @@
+
+<table class=""> <!-- removed profile class -->
+  <tr>
+    <td class="main">
+      <h2>
+	<%= gravatar_for @user %>
+	<%= h @user.name %>
+      </h2>
+      <%= render 'users/follow_form' if signed_in? %>
+      <% unless @user.microposts.empty?  %>
+      <ol class="microposts no-gravatar">
+        <%= render @microposts %>
+      </ol>
+      <%= will_paginate @microposts %>
+      <% end  %>
+    </td>
+    <td class="sidebar round">
+      <%= render :partial => 'pages/user_info', :locals => { :user_input => @user } %>
+      <%= render 'pages/stats' %>
+    </td>
+  </tr>
+</table>
+
