@@ -67,25 +67,65 @@ describe "Users" do
   ## Exercise 12.5.5 Write an integration test for following and
   ## unfollowing a user.
   describe "follow/unfollow" do
-    describe "failure" do
-      it "should not follow an unknown user" do
-        user = Factory(:user)
-        visit signin_path
-        fill_in :email,    :with => user.email
-        fill_in :password, :with => user.password
-        click_button
 
-        # other_user = Factory(:user, :email => Factory.next(:email))
-        # user.follow!(other_user)
+    before(:each) do
+      ## Sign in
+      @user = Factory(:user)
+      visit signin_path
+      fill_in :email,    :with => @user.email
+      fill_in :password, :with => @user.password
+      click_button
 
-        ## TODO 1. Visit another user's profile
-        ## TODO 2. Click the follow button
-        ## TODO 3. Confirm result
-        ## TODO 4. Click unfollow button
-        ## TODO 5. Confirm result
+      @other_user = Factory(:user, :email => Factory.next(:email))
+    end
 
-        
-      end
+    it "should not be following anybody" do
+      response.should_not have_tag("div.stats", /1 following/)
+      response.should have_tag("div.stats", /0 following/)
+    end
+
+    it "should not have any followers" do
+      response.should_not have_tag("div.stats", /1 follower/)
+      response.should have_tag("div.stats", /0 follower/)
+    end
+
+    it "should follow and then unfollow another user" do
+
+      ## Visit another user's profile
+      visit 'users/' + @other_user.id.to_s
+      response.should have_tag("title", /#{@other_user.name}/)
+      
+      ## Click the follow button
+      click_button "Follow"
+
+      ## Confirm result ---------------------------------------
+      ## Check users following stats (should be 1)
+      visit 'users/' + @user.id.to_s
+      response.should have_tag("title", /#{@user.name}/)
+      response.should have_tag("div.stats", /1 following/)
+      response.should_not have_tag("div.stats", /0 following/)
+
+      ## Check other users followers stats (should be 1)
+      visit 'users/' + @other_user.id.to_s
+      response.should have_tag("title", /#{@other_user.name}/)
+      response.should have_tag("div.stats", /1 follower/)
+      response.should_not have_tag("div.stats", /0 followers/)
+
+      ## Click unfollow button
+      click_button "Unfollow"
+
+      ## Confirm result ---------------------------------------
+      ## Check users following stats (should be 0)
+      visit 'users/' + @user.id.to_s
+      response.should have_tag("title", /#{@user.name}/)
+      response.should_not have_tag("div.stats", /1 following/)
+      response.should have_tag("div.stats", /0 following/)
+
+      ## Check other users followers stats (should be 0)
+      visit 'users/' + @other_user.id.to_s
+      response.should have_tag("title", /#{@other_user.name}/)
+      response.should_not have_tag("div.stats", /1 follower/)
+      response.should have_tag("div.stats", /0 followers/)
     end
   end
 end
