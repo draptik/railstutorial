@@ -13,3 +13,9 @@ implements the basic features of the Twitter homepage.
    * Git Repo of fast-export: git://repo.or.cz/fast-export.git
    * Usage of "fast-export":
      http://hedonismbot.wordpress.com/2008/10/16/hg-fast-export-convert-mercurial-repositories-to-git-repositories/
+     $ git clone git://repo.or.cz/fast-export.git
+     $ mkdir new_git_repo
+     $ cd new_git_repo
+     $ git init
+     $ /path/to/hg-fast-export.sh -r /path/to/hg_repo
+     $ git checkout HEAD
